@@ -2,7 +2,7 @@
 Make API requests directly to MyPlace through a simple script and get detailed JSON responses.
 
 ## Overview
-This repo consists of 2 Node.JS scripts, one for the MyPlace APIs `m_api.js` and the other for examples on how to use it `usage.js`.
+This repo consists of 2 main Node.JS scripts, one for the MyPlace APIs `m_api.js` and the other for examples on how to use it `usage.js`.
 
 `m_api.js` is a convenient wrapper  for accessing useful APIs from MyPlace. MyPlace is a platform that offers various services, and this script focuses on extracting and utilising the key functionalities through its APIs.
 
@@ -13,3 +13,17 @@ Set your username and password in `usage.js` then run the script using node:
 ```
 node usage.js
 ```
+
+## Generating Barcodes
+This needs a third-party library `bwip-js`, which can be installed using npm:
+```
+npm i bwip-js
+```
+The `usage.js` script has an example on how to generate these.
+
+## 🔴IMPORTANT🔴
+You should NEVER share your token id, device id, library number or any other personal information with anyone.
+
+For example, it is very easy for someone to log into your account if they have your token id and device id.
+
+Same with your libary number, it can easily be used to replicate your card's barcode. This is also one of the reasons why the app does not allow screenshots when viewing your card, although it can be bypassed pretty easily.

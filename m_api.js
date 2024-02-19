@@ -101,10 +101,10 @@ async function Login(username, password)
 
     const data = await APICall(LOGIN_API.PATH, postData, false, null, timestamp, mac);
     const retrieved = JSON.parse(data);
-    return [retrieved.data.tokenID, retrieved.data.deviceUID, retrieved.data.account, retrieved];
+    return [retrieved.data.tokenID, retrieved.data.deviceUID, retrieved.data.userType, retrieved.data.userKey, retrieved.data.libraryNumber, retrieved];
 }
 
-async function ChooseAccount(tokenId, deviceId, userKey)
+async function ChooseAccount(tokenId, deviceId, userType, userKey)
 {
     const timestamp = GetTimestamp();
     const mac = await GetMAC(CHOOSE_ACCOUNT_API.SERVICE, timestamp, tokenId, deviceId);
@@ -115,7 +115,7 @@ async function ChooseAccount(tokenId, deviceId, userKey)
         "timestamp": timestamp,
         "mac": mac,
         "portalName": "MPEG_STUDENT_PORTAL",
-        "userType": "VAX",
+        "userType": userType,
         "userKey": userKey
     }).toString();
 

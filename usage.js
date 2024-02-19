@@ -1,12 +1,23 @@
 const api = require("./m_api");
+/*
+// enable this if you're generating barcodes
+const barcode_gen = require("./student_card/barcode_generator")
+*/
 
+// the Sleep() function is not needed, it's just there to give me some time to read the console
 async function Example()
 {
-    const [tokenId, deviceId, accountId, loginJsonResult] = await api.Login("abc12345", "password"); // login using ds username and pass
+    const [tokenId, deviceId, userType, userKey, libraryNumber, loginJsonResult] = await api.Login("abc12345", "password"); // login using ds username and pass
     if (tokenId == null || deviceId == null) return; // login failed?
-    console.log(`Logged in, account id: ${accountId}`);
+    console.log(`Logged in, account id: ${userKey}`);
 
-    const chooseAccountJsonResult = await api.ChooseAccount(tokenId, deviceId, accountId); // choose this account to get timetables, notices, etc.
+    /*
+    // example on creating a barcode:
+    barcode_gen.createStudentBarcode(libraryNumber, "./student_card/barcode.png");
+    await Sleep(3000);
+    */
+
+    const chooseAccountJsonResult = await api.ChooseAccount(tokenId, deviceId, userType, userKey); // choose this account to get timetables, notices, etc.
     console.log(chooseAccountJsonResult);
     await Sleep(3000);
     
