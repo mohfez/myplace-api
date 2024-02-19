@@ -13,7 +13,7 @@ async function Example()
 
     /*
     // example on creating a barcode:
-    barcode_gen.createStudentBarcode(libraryNumber, "./student_card/barcode.png");
+    await barcode_gen.createStudentBarcode(libraryNumber, "./student_card/barcode.png");
     await Sleep(3000);
     */
 
