@@ -2,7 +2,7 @@
 const bwipjs = require("bwip-js");
 const fs = require("fs/promises");
 
-async function createStudentBarcode(libraryNumber, filePath)
+async function CreateStudentBarcode(libraryNumber, filePath)
 {
     const options =
     {
@@ -24,5 +24,5 @@ async function createStudentBarcode(libraryNumber, filePath)
 
 module.exports =
 {
-    createStudentBarcode
+    CreateStudentBarcode
 }
