@@ -1,7 +1,7 @@
 const api = require("./m_api");
 /*
 // enable this if you're generating barcodes
-const barcode_gen = require("./student_card/barcode_generator")
+const barcode_gen = require("./library_card/barcode_generator")
 */
 
 // the Sleep() function is not needed, it's just there to give me some time to read the console
@@ -13,7 +13,7 @@ async function Example()
 
     /*
     // example on creating a barcode:
-    await barcode_gen.CreateStudentBarcode(libraryNumber, "./student_card/barcode.png");
+    await barcode_gen.CreateLibraryBarcode(libraryNumber, "./library_card/barcode.png");
     await Sleep(3000);
     */
 
