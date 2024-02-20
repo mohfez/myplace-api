@@ -32,4 +32,4 @@ You should NEVER share your token id, device id, library number or any other per
 
 For example, it is very easy for someone to log into your account if they have your token id and device id.
 
-Same with your libary number, it can easily be used to replicate your card's barcode. This is also one of the reasons why the app does not allow screenshots when viewing your card, although it can be bypassed pretty easily.
+Same with your library number, it can easily be used to replicate your card's barcode. This is also one of the reasons why the app does not allow screenshots when viewing your card, although it can be bypassed pretty easily.
