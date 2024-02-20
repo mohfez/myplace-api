@@ -19,7 +19,13 @@ This needs a third-party library `bwip-js`, which can be installed using npm:
 ```
 npm i bwip-js
 ```
-The `usage.js` script has an example on how to generate these.
+The `usage.js` script has an example on how to generate these:
+```js
+await barcode_gen.createStudentBarcode(12345678901234, "./student_card/barcode.png");
+```
+
+![image](https://github.com/mohfez/myplace-api/assets/150836596/5498799b-4e04-448e-a8b8-e5fb692b8a24)
+
 
 ## 🔴IMPORTANT🔴
 You should NEVER share your token id, device id, library number or any other personal information with anyone.
