@@ -101,7 +101,7 @@ async function Login(username, password)
 
     const data = await APICall(LOGIN_API.PATH, postData, false, null, timestamp, mac);
     const retrieved = JSON.parse(data);
-    return [retrieved.data.tokenID, retrieved.data.deviceUID, retrieved.data.userType, retrieved.data.userKey, retrieved.data.libraryNumber, retrieved];
+    return [retrieved.data.tokenID, retrieved.data.deviceUID, retrieved.data.accounts[0].userType, retrieved.data.accounts[0].userKey, retrieved.data.accounts[0].libraryNumber, retrieved];
 }
 
 async function ChooseAccount(tokenId, deviceId, userType, userKey)
