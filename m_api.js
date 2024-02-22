@@ -23,6 +23,13 @@ const MYPLACE_CLASSES_API = { PATH: "/api/service/myplace_classes/v1/", SERVICE:
 const MOBILE_ACCOUNTS_API = { PATH: "/api/service/mobileaccounts/v1/", SERVICE: "MOBILEACCOUNTS" }
 const APP_VERSION = "3.2.2";
 
+/**
+ * @param {string} serviceName The API service name.
+ * @param {number} timestamp The current timestamp.
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {string} The MAC address of the current instance.
+ */
 async function GetMAC(serviceName, timestamp, tokenId, deviceId)
 {
     tokenId = tokenId || "x";
@@ -37,11 +44,24 @@ async function GetMAC(serviceName, timestamp, tokenId, deviceId)
     return await md5.digest("hex").toUpperCase();
 }
 
+/**
+ * @returns {number} The current timestamp.
+ */
 function GetTimestamp()
 {
     return ((new Date).getTime() / 1e3);
 }
 
+/**
+ * Hidden helper function for calling APIs.
+ * @param {string} apiPath The path that's connected to the URL.
+ * @param {URLSearchParams|JSON} postData Data to send, can be nothing.
+ * @param {boolean} jsonContentType Is it JSON?
+ * @param {string} tokenId The token id of the account.
+ * @param {number} timestamp The current timestamp.
+ * @param {string} mac The MAC address of the current instance.
+ * @returns {string} The result from the API request.
+ */
 function APICall(apiPath, postData, jsonContentType, tokenId, timestamp, mac)
 {
     const headers =
@@ -86,6 +106,12 @@ function APICall(apiPath, postData, jsonContentType, tokenId, timestamp, mac)
     });
 }
 
+/**
+ * Log into MyPlace.
+ * @param {string} username Your DS username.
+ * @param {string} password Your DS password.
+ * @returns {[tokenId, deviceId, userType, userKey, libraryNumber, JSON]}
+ */
 async function Login(username, password)
 {
     const timestamp = GetTimestamp();
@@ -104,6 +130,14 @@ async function Login(username, password)
     return [retrieved.data.tokenID, retrieved.data.deviceUID, retrieved.data.accounts[0].userType, retrieved.data.accounts[0].userKey, retrieved.data.accounts[0].libraryNumber, retrieved];
 }
 
+/**
+ * Chooses an account so that all APIs work properly, this is usually needed.
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @param {string} userType The type of the user, normally `VAX`.
+ * @param {string} userKey Your user id.
+ * @returns {JSON}
+ */
 async function ChooseAccount(tokenId, deviceId, userType, userKey)
 {
     const timestamp = GetTimestamp();
@@ -123,6 +157,12 @@ async function ChooseAccount(tokenId, deviceId, userType, userKey)
     return JSON.parse(data);
 }
 
+/**
+ * Logs out of MyPlace. It is best to always do this after you're done with a token id & device id.
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON}
+ */
 async function Logout(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -132,6 +172,11 @@ async function Logout(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} The class timetable.
+ */
 async function GetTimetable(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -149,6 +194,11 @@ async function GetTimetable(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} The exam timetable.
+ */
 async function GetExamTimetable(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -166,6 +216,11 @@ async function GetExamTimetable(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} The notices count.
+ */
 async function GetNoticesCount(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -183,6 +238,11 @@ async function GetNoticesCount(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} Sets all notices as read.
+ */
 async function SetAllNoticesRead(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -200,6 +260,12 @@ async function SetAllNoticesRead(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @param {number} since Since a certain time (unix timestamp).
+ * @returns {JSON} The notices count.
+ */
 async function GetNewNotices(tokenId, deviceId, since)
 {
     const timestamp = GetTimestamp();
@@ -218,6 +284,13 @@ async function GetNewNotices(tokenId, deviceId, since)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @param {number} start Starting position, e.g. `0`.
+ * @param {number} limit How many to get? e.g. `200`.
+ * @returns {JSON} The notices.
+ */
 async function GetNotices(tokenId, deviceId, start, limit)
 {
     const timestamp = GetTimestamp();
@@ -237,6 +310,11 @@ async function GetNotices(tokenId, deviceId, start, limit)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} A list of deadlines.
+ */
 async function GetDeadlines(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -254,6 +332,11 @@ async function GetDeadlines(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} Get all the class results.
+ */
 async function GetClassResults(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -271,6 +354,11 @@ async function GetClassResults(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} Get all the exam results.
+ */
 async function GetExamResults(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -288,6 +376,11 @@ async function GetExamResults(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} A list of classes that have available past exam papers.
+ */
 async function GetClassesWithExamPapers(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -305,6 +398,9 @@ async function GetClassesWithExamPapers(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @returns {JSON} A list of available lab PCs, no login required.
+ */
 async function GetLabPCs()
 {
     const timestamp = GetTimestamp();
@@ -320,6 +416,13 @@ async function GetLabPCs()
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @param {string} from From a certain date, e.g. `"2024-02-01T00:00:00"`
+ * @param {string} to To a certain date, e.g. `"2024-03-17T23:59:17"`
+ * @returns {JSON} A list of bookings.
+ */
 async function GetBookings(tokenId, deviceId, from, to)
 {
     const timestamp = GetTimestamp();
@@ -339,6 +442,11 @@ async function GetBookings(tokenId, deviceId, from, to)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} A list of loaned library books.
+ */
 async function GetLibraryLoanedBooks(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -356,6 +464,11 @@ async function GetLibraryLoanedBooks(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} A cache of everything.
+ */
 async function CachePolicy(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -373,6 +486,11 @@ async function CachePolicy(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} A list of classes.
+ */
 async function GetClasses(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
@@ -390,6 +508,11 @@ async function GetClasses(tokenId, deviceId)
     return JSON.parse(data);
 }
 
+/**
+ * @param {string} tokenId The token id of the account.
+ * @param {string} deviceId The device id of the account.
+ * @returns {JSON} A list of mobile accounts.
+ */
 async function GetMobileAccounts(tokenId, deviceId)
 {
     const timestamp = GetTimestamp();
